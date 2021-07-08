@@ -3,6 +3,7 @@ const webpack = require('webpack'); // webpack核心
 const webpackDevMiddleware = require('webpack-dev-middleware'); // webpack服务器
 const webpackHotMiddleware = require('webpack-hot-middleware'); // HMR热更新中间件
 const webpackConfig = require('./webpack.dev.js'); // webpack开发环境的配置文件
+const open = require('open');
 // const { createProxyMiddleware } = require('http-proxy-middleware');
 const app = express(); // 实例化express服务
 let PORT = 7777; // 服务启动端口号
@@ -16,6 +17,7 @@ if (env === 'production') {
     app.listen(PORT, () => {
         console.log('本地服务开启了，启动地址: http://localhost:%s', PORT);
     });
+    open(`http://localhost:${PORT}`);
 } else {
     // const config = {
     //     target: 'http://www.asdas.com', //目标地址
@@ -49,6 +51,8 @@ if (env === 'production') {
     app.use(webpackHotMiddleware(compiler)); // 挂载HMR热更新中间件
     /** 启动服务 **/
     app.listen(PORT, () => {
+        open(`http://localhost:${PORT}`);
+
         console.log('本地服务启动地址: http://localhost:%s', PORT);
     });
 }

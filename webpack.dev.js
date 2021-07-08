@@ -11,7 +11,7 @@ module.exports = env => {
         mode: 'development',
 
         entry: ['./src/index.js', 'webpack-hot-middleware/client?reload=true&path=/__webpack_hmr'],
-        devtool: 'eval-source-map', // 报错的时候在控制台输出哪一行报错
+        devtool: 'eval-cheap-module-source-map', // 报错的时候在控制台输出哪一行报错
         output: {
             path: __dirname + '/', // 将打包好的文件放在此路径下，dev模式中，只会在内存中存在，不会真正的打包到此路径
             publicPath: '/', // 文件解析路径，index.html中引用的路径会被设置为相对于此路径
@@ -24,6 +24,7 @@ module.exports = env => {
             hot: true,
             hotOnly: true,
             open: true,
+
             // overlay: {
             //     warnings: true,
             //     errors: true,
@@ -40,12 +41,7 @@ module.exports = env => {
             moduleIds: 'deterministic',
         },
         cache: {
-            type: 'filesystem',
-            // 可选配置
-            buildDependencies: {
-                config: [__filename], // 当构建依赖的config文件（通过 require 依赖）内容发生变化时，缓存失效
-            },
-            name: 'development-cache', // 配置以name为隔离，创建不同的缓存文件，如生成PC或mobile不同的配置缓存
+            type: 'memory',
         },
         plugins: [new webpack.HotModuleReplacementPlugin()],
         resolve: {

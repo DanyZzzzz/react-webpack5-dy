@@ -5,7 +5,6 @@ const webpackbar = require('webpackbar');
 
 const lessRegex = /\.less$/;
 const lessModuleRegex = /\.module\.less$/;
-const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 // css/css module 正则表达式
 const cssRegex = /\.css$/;
 const cssModuleRegex = /\.module\.css$/;
@@ -14,6 +13,7 @@ const sassRegex = /\.(scss|sass)$/;
 const sassModuleRegex = /\.module\.(scss|sass)$/;
 const srcDir = path.resolve(__dirname, './src');
 const devMode = process.env.NODE_ENV !== 'production';
+const RouterPlugin = require('./routePlugin');
 
 module.exports = env => {
     return {
@@ -25,18 +25,26 @@ module.exports = env => {
 
         output: {
             path: path.resolve(__dirname, 'build'), // 将文件打包到此目录下
-            filename: 'dist/[name].[chunkhash:8].js',
-            chunkFilename: 'dist/[name].[chunkhash:8].chunk.js',
+            filename: 'js/[name].[chunkhash:8].js',
+            chunkFilename: 'js/[name].[chunkhash:8].chunk.js',
         },
 
         plugins: [
             new webpackbar(),
+            new RouterPlugin({
+                pagePath: path.join(srcDir, 'pages'),
+                output: path.join(srcDir, 'config'),
+            }),
 
             // 生成 index.html
             new HtmlWebpackPlugin({
                 filename: 'index.html',
                 template: 'index.html',
                 inject: true, // 是否将js放在body的末尾
+                minify: {
+                    collapseWhitespace: true,
+                    removeComments: true,
+                }, // 压缩HTML
             }),
         ],
         module: {
@@ -62,13 +70,13 @@ module.exports = env => {
                         },
                     ],
 
-                    use: ['babel-loader'],
+                    use: [{ loader: 'babel-loader', options: { cacheDirectory: true } }],
                     include: srcDir,
                 },
                 {
                     test: cssRegex,
                     exclude: cssModuleRegex,
-                    use: [devMode ? 'style-loader' : MiniCssExtractPlugin.loader, 'css-loader', 'postcss-loader'],
+                    use: ['style-loader', 'css-loader', 'postcss-loader'],
                 },
                 {
                     test: cssModuleRegex,
@@ -88,7 +96,7 @@ module.exports = env => {
                 {
                     test: lessRegex,
                     exclude: lessModuleRegex,
-                    use: [devMode ? 'style-loader' : MiniCssExtractPlugin.loader, 'css-loader', 'postcss-loader', 'less-loader'],
+                    use: ['style-loader', 'css-loader', 'postcss-loader', 'less-loader'],
                     sideEffects: true,
                 },
                 {
@@ -110,7 +118,7 @@ module.exports = env => {
                 {
                     test: sassRegex,
                     exclude: sassModuleRegex,
-                    use: [devMode ? 'style-loader' : MiniCssExtractPlugin.loader, 'css-loader', 'postcss-loader', 'sass-loader'],
+                    use: ['style-loader', 'css-loader', 'postcss-loader', 'sass-loader'],
                 },
                 {
                     test: sassModuleRegex,
@@ -137,6 +145,7 @@ module.exports = env => {
                 },
             ],
         },
+        stats: 'errors-only',
         resolve: {
             alias: {
                 '@': srcDir,

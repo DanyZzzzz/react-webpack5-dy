@@ -3,9 +3,6 @@ import { RouterView } from '@/Component/Route/router';
 import React, { FC, useEffect } from 'react';
 
 const Main: FC = () => {
-    useEffect(() => {
-        console.log(111);
-    }, []);
     return (
         <div>
             asdasd

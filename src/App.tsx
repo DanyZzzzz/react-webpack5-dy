@@ -1,13 +1,13 @@
 import React from 'react';
 import { HashRouter } from 'react-router-dom';
 import { RouteWithSubRoutes } from './Component/Route/router';
-import routesConfig from './config/router';
 import NoMatch from './pages/__Component/NoMatch';
+import { routeConfig } from './config/autoRouter';
 
 function App() {
     return (
         <HashRouter>
-            <RouteWithSubRoutes route={routesConfig} NoMatch={NoMatch}></RouteWithSubRoutes>
+            <RouteWithSubRoutes route={routeConfig} NoMatch={NoMatch}></RouteWithSubRoutes>
         </HashRouter>
     );
 }
