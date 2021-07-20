@@ -7,7 +7,15 @@ import { routeConfig } from './config/autoRouter';
 function App() {
     return (
         <HashRouter>
-            <RouteWithSubRoutes route={routeConfig} NoMatch={NoMatch}></RouteWithSubRoutes>
+            <RouteWithSubRoutes
+                before={location => {
+                    //例如
+                    //    if(localStorage.getItem("login")=="false")
+                    //     return  window.location.hash="#/login"
+                }}
+                route={routeConfig}
+                NoMatch={NoMatch}
+            ></RouteWithSubRoutes>
         </HashRouter>
     );
 }

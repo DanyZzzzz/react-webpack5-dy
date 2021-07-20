@@ -58,6 +58,10 @@ module.exports = env => {
                 maxInitialRequests: 3, //首页加载的时候引入的文件最多3个
                 automaticNameDelimiter: '~', //缓存组和生成文件名称之间的连接符
                 cacheGroups: {
+                    // vendors: {
+                    //     test: /[\\/]node_modules[\\/]/,
+                    //     priority: 13,
+                    // },
                     react: {
                         name: 'react',
                         test: module => {
@@ -65,6 +69,15 @@ module.exports = env => {
                         },
                         chunks: 'all',
                         priority: 10,
+                        enforce: true,
+                    },
+                    src: {
+                        name: 'src',
+                        test: module => {
+                            return /src/.test(module.context);
+                        },
+                        chunks: 'all',
+                        priority: 13,
                         enforce: true,
                     },
 
@@ -87,6 +100,12 @@ module.exports = env => {
                         priority: 11,
                         enforce: true,
                     },
+
+                    // default: {
+                    //     minChunks: 2,
+                    //     priority: 12,
+                    //     reuseExistingChunk: true,
+                    // },
                 },
             },
         },
@@ -110,12 +129,18 @@ module.exports = env => {
                 {
                     test: cssRegex,
                     exclude: cssModuleRegex,
-                    use: ['thread-loader', MiniCssExtractPlugin.loader, 'css-loader', 'postcss-loader'],
+                    use: [
+                        {
+                            loader: MiniCssExtractPlugin.loader,
+                        },
+
+                        'css-loader',
+                        'postcss-loader',
+                    ],
                 },
                 {
                     test: cssModuleRegex,
                     use: [
-                        'thread-loader',
                         'style-loader',
                         {
                             loader: 'css-loader',
@@ -131,7 +156,14 @@ module.exports = env => {
                 {
                     test: lessRegex,
                     exclude: lessModuleRegex,
-                    use: [MiniCssExtractPlugin.loader, 'css-loader', 'postcss-loader', 'less-loader'],
+                    use: [
+                        {
+                            loader: MiniCssExtractPlugin.loader,
+                        },
+                        'css-loader',
+                        'postcss-loader',
+                        'less-loader',
+                    ],
                     sideEffects: true,
                 },
                 {
@@ -153,12 +185,19 @@ module.exports = env => {
                 {
                     test: sassRegex,
                     exclude: sassModuleRegex,
-                    use: ['thread-loader', MiniCssExtractPlugin.loader, 'css-loader', 'postcss-loader', 'sass-loader'],
+                    use: [
+                        {
+                            loader: MiniCssExtractPlugin.loader,
+                        },
+
+                        'css-loader',
+                        'postcss-loader',
+                        'sass-loader',
+                    ],
                 },
                 {
                     test: sassModuleRegex,
                     use: [
-                        'thread-loader',
                         'style-loader',
                         {
                             loader: 'css-loader',

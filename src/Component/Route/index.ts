@@ -12,6 +12,7 @@ export interface RouteInterface {
 
 export interface RoutesInterface {
     route: RouteInterface[];
+    before?: (location: Location) => void;
     NoMatch?: () => ReactElement | JSX.Element;
 }
 

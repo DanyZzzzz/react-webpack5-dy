@@ -4,7 +4,7 @@ import { RouteInterface, RoutesInterface } from '.';
 
 export const RouterContext = createContext<any>(null);
 
-export const RouteWithSubRoutes: FC<RoutesInterface> = ({ route, NoMatch }) => {
+export const RouteWithSubRoutes: FC<RoutesInterface> = ({ route, NoMatch, before }) => {
     const defaultRouter = route.find(item => item.default && item.path);
 
     const searchMemo = useMemo(() => {
@@ -23,7 +23,7 @@ export const RouteWithSubRoutes: FC<RoutesInterface> = ({ route, NoMatch }) => {
                             key={item.path}
                             render={(props: any) => {
                                 const Warp = <item.component {...props}> </item.component>;
-
+                                before && before(location);
                                 return (
                                     <RouterContext.Provider
                                         value={{
