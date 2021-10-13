@@ -9,6 +9,7 @@ function App() {
         <HashRouter>
             <RouteWithSubRoutes
                 before={location => {
+                    console.log(location);
                     //例如
                     //    if(localStorage.getItem("login")=="false")
                     //     return  window.location.hash="#/login"

@@ -47,12 +47,12 @@ class RouterPlugin {
             console.log('[自动写入路由配置，成功]');
             // 更新路由JSON字符串
             this.route = routers;
-            staticRoute.push(`import loadable from  '@loadable/component';\n`);
+            staticRoute.push(`import loadable from '@loadable/component';\n`);
 
-            fs.writeFileSync(this.output + '/autoRouter.ts', staticRoute.map(item => item).join('') + 'export const routeConfig = ' + str, {
+            fs.writeFileSync(this.output + '/autoRouter.ts', staticRoute.map(item => item).join('') + 'export const routeConfig = ' + str + ';\n', {
                 flag: 'w',
                 encoding: 'utf-8',
-                mode: '0666',
+                mode: '0666'
             });
         }
     }
@@ -65,7 +65,7 @@ function getDir(dir, componentBase, staticRoute, routePath) {
         const files = fs.readdirSync(dir);
         const childs = [];
         let router = {
-            routes: [],
+            routes: []
         };
 
         files.forEach(filename => {

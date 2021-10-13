@@ -1,32 +1,51 @@
 module.exports = {
-    env: {
-        browser: true,
-        es2021: true,
-    },
-    extends: ['eslint:recommended', 'plugin:react/recommended', 'plugin:@typescript-eslint/recommended'],
     parser: '@typescript-eslint/parser',
     parserOptions: {
-        ecmaFeatures: {
-            jsx: true,
-        },
-        ecmaVersion: 12,
-        sourceType: 'module',
+        ecmaVersion: 6,
+        sourceType: 'module'
     },
-    plugins: ['react', '@typescript-eslint'],
-    rules: {
-        '@typescript-eslint/no-explicit-any': ['off'],
-        'no-unused-vars': 'off',
-        'no-cond-assign': 'error',
-        'no-debugger': 'warn',
-        'no-dupe-args': 'error',
-        'no-caller': 'error',
-        'no-unmodified-loop-condition': 'error',
-        'no-with': 'error',
-        'no-catch-shadow': 'error',
-    },
+    extends: ['plugin:@typescript-eslint/recommended', 'plugin:react/recommended', 'plugin:prettier/recommended'],
+    plugins: ['@typescript-eslint', 'react', 'prettier'],
     settings: {
         react: {
-            version: '17.0.2',
-        },
+            version: 'detect'
+        }
     },
+    env: {
+        browser: true,
+        node: true,
+        jquery: true,
+        webextensions: true
+    },
+    rules: {
+        'linebreak-style': [0, 'unix'],
+        'no-console': [0],
+        'no-loop-func': [1],
+        'max-len': [0],
+        '@typescript-eslint/no-empty-function': 'off',
+        'operator-linebreak': [0],
+        'react/jsx-filename-extension': [0],
+        'react/react-in-jsx-scope': [0],
+        'react/no-multi-comp': [0],
+        'react/destructuring-assignment': [0],
+        'react/jsx-one-expression-per-line': [0],
+        'react/jsx-wrap-multilines': [0],
+        'react/jsx-props-no-spreading': [0],
+        'react/state-in-constructor': [0],
+        'react/static-property-placement': [0],
+        '@typescript-eslint/no-explicit-any': [0],
+        '@typescript-eslint/no-unused-vars': [2],
+        '@typescript-eslint/explicit-function-return-type': [2],
+        '@typescript-eslint/explicit-module-boundary-types': 'off',
+        '@typescript-eslint/explicit-function-return-type': 'off',
+        'prettier/prettier': [
+            'error',
+            {
+                endOfLine: 'auto'
+            }
+        ]
+    },
+    globals: {
+        axios: true
+    }
 };

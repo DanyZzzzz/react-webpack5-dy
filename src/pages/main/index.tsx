@@ -1,6 +1,6 @@
+import React, { FC } from 'react';
 import { PathLink } from '@/Component/Route/PathLink';
 import { RouterView } from '@/Component/Route/router';
-import React, { FC, useEffect } from 'react';
 
 const Main: FC = () => {
     return (

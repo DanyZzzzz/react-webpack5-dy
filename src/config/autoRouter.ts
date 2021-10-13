@@ -1,5 +1,5 @@
 import Page from '@/pages/index';
-import loadable from  '@loadable/component';
+import loadable from '@loadable/component';
 export const routeConfig = [
     {
         routes: [
@@ -40,4 +40,4 @@ export const routeConfig = [
         path: '/',
         component: Page
     }
-]
+];

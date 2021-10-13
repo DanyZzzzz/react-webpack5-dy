@@ -1,14 +1,14 @@
-import { SessionStorage, Update } from "@/Component/Redux/index";
+import { SessionStorage, Update } from '@/Component/Redux/index';
 
 class TestModule {
-  @SessionStorage
-  num = 1;
-  @Update
-  private update() {}
+    @SessionStorage
+    num = 1;
+    @Update
+    private update() {}
 
-  updataNumber(num: number) {
-    this.num = num;
-    this.update();
-  }
+    updataNumber(num: number) {
+        this.num = num;
+        this.update();
+    }
 }
 export default new TestModule();

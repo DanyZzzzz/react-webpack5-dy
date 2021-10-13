@@ -27,7 +27,7 @@ export const RouteWithSubRoutes: FC<RoutesInterface> = ({ route, NoMatch, before
                                 return (
                                     <RouterContext.Provider
                                         value={{
-                                            router: item.routes && item.routes.length ? <RouteWithSubRoutes route={item.routes} NoMatch={NoMatch} /> : null,
+                                            router: item.routes && item.routes.length ? <RouteWithSubRoutes route={item.routes} NoMatch={NoMatch} /> : null
                                         }}
                                     >
                                         {Warp}
