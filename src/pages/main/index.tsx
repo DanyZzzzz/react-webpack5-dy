@@ -1,8 +1,8 @@
-import React, { FC } from 'react';
+import * as React from 'react';
 import { PathLink } from '@/Component/Route/PathLink';
 import { RouterView } from '@/Component/Route/router';
 
-const Main: FC = () => {
+const Main: React.FC = () => {
     return (
         <div>
             asdasd

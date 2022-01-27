@@ -4,7 +4,7 @@ import Axios, { AxiosRequestConfig } from 'axios';
 class Exception {
     code?: number;
     msg?: string;
-    async handle(code: any) {
+    async handle(code: any): Promise<void> {
         switch (code) {
             case 10004:
                 localStorage.clear();
@@ -14,7 +14,7 @@ class Exception {
             default:
         }
     }
-    toLoginPage() {
+    toLoginPage(): void | Promise<boolean> {
         const isLoginHash = window.location.hash == '#/login';
         if (!isLoginHash) {
             window.location.hash = '#';
@@ -30,7 +30,7 @@ class Exception {
 export const instance = Axios.create();
 const CancelToken = Axios.CancelToken;
 let source = CancelToken.source();
-export function canCelRequest() {
+export function canCelRequest(): void {
     source.cancel();
     source = CancelToken.source();
 }

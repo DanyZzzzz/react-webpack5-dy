@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-var-requires */
 const express = require('express'); // express服务器端框架
 const webpack = require('webpack'); // webpack核心
 const webpackDevMiddleware = require('webpack-dev-middleware'); // webpack服务器
@@ -34,12 +35,12 @@ if (env === 'production') {
 
     // app.use('**', createProxyMiddleware({ target: 'http://abc:8080' }));
 
-    const compiler = webpack(webpackConfig());
+    const compiler = webpack(webpackConfig);
     app.use(express.static('dll'));
 
     app.use(
         webpackDevMiddleware(compiler, {
-            publicPath: '/', // 对应webpack配置中的publicPath
+            publicPath: '/' // 对应webpack配置中的publicPath
             // hot: true,
             // inline: true,
             // noInfo: false,

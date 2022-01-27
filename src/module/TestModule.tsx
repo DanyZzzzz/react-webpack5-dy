@@ -4,9 +4,9 @@ class TestModule {
     @SessionStorage
     num = 1;
     @Update
-    private update() {}
+    private update(): void {}
 
-    updataNumber(num: number) {
+    updataNumber(num: number): void {
         this.num = num;
         this.update();
     }

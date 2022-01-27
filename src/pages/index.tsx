@@ -1,6 +1,6 @@
-import React, { FC } from 'react';
+import * as React from 'react';
 import { RouterView } from '@/Component/Route/router';
-const Main: FC = () => {
+const Main: React.FC = () => {
     return <RouterView />;
 };
 export default Main;

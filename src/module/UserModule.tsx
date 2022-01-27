@@ -7,11 +7,11 @@ class Timer {
         makeAutoObservable(this);
     }
 
-    increase() {
+    increase(): void {
         this.secondsPassed += 1;
     }
 
-    reset() {
+    reset(): void {
         this.secondsPassed = 0;
     }
 }

@@ -1,4 +1,5 @@
-import React, { createContext, FC, useContext, useMemo } from 'react';
+import * as React from 'react';
+import { createContext, FC, useContext, useMemo } from 'react';
 import { Redirect, Route, Switch } from 'react-router-dom';
 import { RouteInterface, RoutesInterface } from '.';
 
@@ -21,7 +22,7 @@ export const RouteWithSubRoutes: FC<RoutesInterface> = ({ route, NoMatch, before
                             exact={item.exact}
                             path={item.path}
                             key={item.path}
-                            render={(props: any) => {
+                            render={(props: any): React.ReactElement => {
                                 const Warp = <item.component {...props}> </item.component>;
                                 before && before(location);
                                 return (
@@ -44,7 +45,7 @@ export const RouteWithSubRoutes: FC<RoutesInterface> = ({ route, NoMatch, before
     );
 };
 
-export const RouterView = () => {
+export const RouterView = (): any => {
     const Router = useContext(RouterContext);
     return Router.router ? Router.router : <></>;
 };

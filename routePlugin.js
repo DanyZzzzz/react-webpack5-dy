@@ -71,19 +71,11 @@ function getDir(dir, componentBase, staticRoute, routePath) {
         files.forEach(filename => {
             let pathname = path.join(dir, filename);
             // console.log('[读取]   ======>   ' + pathname)
-
             const stat = fs.statSync(pathname);
-
-            if ('route' === path.basename(pathname, '.config')) {
-                // component = JSON.parse(fs.readFileSync(pathname));
-                // //console.log('==================>    ', component, Object.hasOwnProperty(component, 'noLazy'))
-                // if (component.hasOwnProperty('default') && component.default) {
-                //     router.default = true;
-
-                // }
-                router.default = true;
-            }
             if ('index' === path.basename(pathname, '.tsx')) {
+                if ('/login'=== routePath) {
+                    router.default = true;
+                }
                 router.componentPath = "'" + componentBase + routePath + '/index.tsx' + "'";
                 router.path = "'" + routePath + "'";
                 router.component = 'loadable(() => import(' + `'@/${componentBase}${routePath}/index'` + '))';
@@ -107,7 +99,7 @@ function getDir(dir, componentBase, staticRoute, routePath) {
 
         return router;
     } catch (e) {
-        console.log('×[自动写入路由配置，失败]');
+        console.log('[自动写入路由配置，失败]', e);
         return {};
     }
 }

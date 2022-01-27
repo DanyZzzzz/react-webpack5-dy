@@ -1,6 +1,7 @@
 import { PathLink } from '@/Component/Route/PathLink';
 import { Button } from 'antd';
-import React, { FC, useEffect } from 'react';
+import * as React from 'react';
+import { FC, useEffect } from 'react';
 import { useModule } from '@/Component/Redux/index';
 
 const Login: FC = () => {
@@ -12,7 +13,7 @@ const Login: FC = () => {
         <div>
             123213123213213
             <Button
-                onClick={() => {
+                onClick={(): void => {
                     TestModule.updataNumber(6);
                 }}
             >

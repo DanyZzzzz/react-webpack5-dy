@@ -22,7 +22,6 @@ module.exports = {
         'no-console': [0],
         'no-loop-func': [1],
         'max-len': [0],
-        '@typescript-eslint/no-empty-function': 'off',
         'operator-linebreak': [0],
         'react/jsx-filename-extension': [0],
         'react/react-in-jsx-scope': [0],
@@ -36,14 +35,8 @@ module.exports = {
         '@typescript-eslint/no-explicit-any': [0],
         '@typescript-eslint/no-unused-vars': [2],
         '@typescript-eslint/explicit-function-return-type': [2],
-        '@typescript-eslint/explicit-module-boundary-types': 'off',
-        '@typescript-eslint/explicit-function-return-type': 'off',
-        'prettier/prettier': [
-            'error',
-            {
-                endOfLine: 'auto'
-            }
-        ]
+        '@typescript-eslint/no-empty-function': [0],
+        'prettier/prettier': 'off'
     },
     globals: {
         axios: true

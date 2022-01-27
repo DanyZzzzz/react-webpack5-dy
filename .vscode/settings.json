@@ -1,0 +1,17 @@
+// 将设置放入此文件中以覆盖默认值和用户设置。
+{
+  "files.autoSave": "off",
+  "editor.tabSize": 2,
+  "files.eol": "\n",
+  "files.exclude": {
+    "**/.git": false,
+    "**/.svn": false,
+    "**/.hg": true,
+    "**/.DS_Store": true
+  },
+  "javascript.implicitProjectConfig.experimentalDecorators": true, // 开启 @修饰器 的实验支持
+  "javascript.implicitProjectConfig.checkJs": true, // 加了这句，jsconfig.json 语法才不会报错
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": true // 保存时自动执行 prettier 格式化
+  }
+}

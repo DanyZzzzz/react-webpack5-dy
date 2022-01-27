@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 import { Decrypt, Encrypt } from '@/utils/js-aes';
 import { ReducersMapObject } from 'redux';
 import { LocalMap, SessionMap } from './decorators';
@@ -13,7 +14,7 @@ const Local = window.localStorage;
 /**
  * 自定义通用reducer，以module区分，每次更新module
  */
-export function reducers(modules: any) {
+export function reducers(modules: any): ReducersMapObject<{ [p: string]: any }, any> {
     // reducer类型
     const obj: ReducersMapObject<{ [p: string]: any }, any> = {};
 
@@ -24,7 +25,7 @@ export function reducers(modules: any) {
 
         // session 的优先级高于Local 所以local中查出的结果会被Session覆盖
         const moduleItem = hasSession(hasLocal({ ...module }, contextName), contextName);
-        obj[contextName] = function (state: any = moduleItem, action: Action) {
+        obj[contextName] = function (state: any = moduleItem, action: Action): void {
             // 以命名规则 Module_ 开头的，确保Action匹配到自身的Module而不会影响到其他的Module
             if (new RegExp('^' + contextName + '_').test(action.type)) {
                 return { ...state, ...action.payload };
@@ -40,7 +41,7 @@ export function reducers(modules: any) {
  * @param moduleItem 默认初始值
  * @param module    module对象
  */
-function hasLocal(moduleItem: any, name: string) {
+function hasLocal(moduleItem: any, name: string): void {
     const moduleLocal = Local.getItem(name);
     if (moduleLocal) {
         moduleItem = Object.assign(moduleItem, JSON.parse(Decrypt(moduleLocal)));
@@ -55,7 +56,7 @@ function hasLocal(moduleItem: any, name: string) {
  * @param moduleItem 默认初始值
  * @param module    module对象
  */
-function hasSession(moduleItem: any, name: string) {
+function hasSession(moduleItem: any, name: string): void {
     const moduleSession = Session.getItem(name);
     if (moduleSession) {
         moduleItem = Object.assign(moduleItem, JSON.parse(Decrypt(moduleSession)));
@@ -65,7 +66,7 @@ function hasSession(moduleItem: any, name: string) {
     return moduleItem;
 }
 
-export function setLocal(name: string, module: any) {
+export function setLocal(name: string, module: any): void {
     const list = LocalMap && LocalMap.get(name);
     // 只添加属性队列中需要localStorage的属性
     if (list) {
@@ -79,7 +80,7 @@ export function setLocal(name: string, module: any) {
     }
 }
 
-export function setSession(name: string, module: any) {
+export function setSession(name: string, module: any): void {
     const list = SessionMap && SessionMap.get(name);
     // 只添加属性队列中需要sessionStorage的属性
     if (list) {
@@ -98,9 +99,9 @@ export function setSession(name: string, module: any) {
  * @param moduleName   Module名
  * @param property module字段名，没有则删除整个module
  */
-export function deleteSeesion(moduleName: string, property?: string) {
+export function deleteSeesion(moduleName: string, property?: string): void {
     const session = Session.getItem(moduleName);
-    const hasModule = (todo: any) => {
+    const hasModule = (todo: any): void => {
         if (session) {
             todo();
         } else {
@@ -109,7 +110,7 @@ export function deleteSeesion(moduleName: string, property?: string) {
     };
     if (property) {
         hasModule(() => {
-            const module = JSON.parse(Decrypt(session));
+            const module = JSON.parse(Decrypt(session as string));
             if (Reflect.deleteProperty(module, property)) {
                 Session.setItem(moduleName, Encrypt(JSON.stringify(module)));
             } else {
@@ -126,9 +127,9 @@ export function deleteSeesion(moduleName: string, property?: string) {
  * @param moduleName   Module名
  * @param property module字段名，没有则删除整个module
  */
-export function deleteLocal(moduleName: string, property?: string) {
+export function deleteLocal(moduleName: string, property?: string): void {
     const local = Local.getItem(moduleName);
-    const hasModule = (todo: any) => {
+    const hasModule = (todo: any): void => {
         if (local) {
             todo();
         } else {
@@ -137,7 +138,7 @@ export function deleteLocal(moduleName: string, property?: string) {
     };
     if (property) {
         hasModule(() => {
-            const module = JSON.parse(Decrypt(local));
+            const module = JSON.parse(Decrypt(local as string));
             if (Reflect.deleteProperty(module, property)) {
                 Local.setItem(moduleName, Encrypt(JSON.stringify(module)));
             } else {

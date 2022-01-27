@@ -1,7 +1,8 @@
+/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 import { Button, Result } from 'antd';
-import React from 'react';
+import * as React from 'react';
 
-const NoMatch = (props?: any) => {
+const NoMatch = (props?: any): React.ReactElement => {
     return (
         <Result
             status="404"
@@ -10,7 +11,7 @@ const NoMatch = (props?: any) => {
             extra={
                 <Button
                     type="primary"
-                    onClick={() => {
+                    onClick={(): void => {
                         props.history.replace('/');
                     }}
                 >

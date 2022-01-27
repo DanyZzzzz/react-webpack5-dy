@@ -29,10 +29,10 @@ export default ReduxProvider;
  * 使用react-redux的useSelector重新组装每个Module对象
  */
 export function useModule<T>(): T {
-    const { state } = useSelector(state => ({ state }));
+    const { state } = useSelector((state) => ({ state }));
     const obj = {};
     // 重新组装module
-    Reflect.ownKeys(modules).forEach(key => {
+    Reflect.ownKeys(modules).forEach((key) => {
         const module = Reflect.get(modules, key);
         const moduleState = Reflect.get(state, module.constructor.name);
         Reflect.set(obj, key, Object.assign(module, moduleState));

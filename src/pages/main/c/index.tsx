@@ -1,4 +1,5 @@
-import React, { FC, useEffect } from 'react';
+import * as React from 'react';
+import { FC, useEffect } from 'react';
 import { observable } from 'mobx';
 // import { Button } from 'antd';
 const C: FC = () => {

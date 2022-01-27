@@ -1,13 +1,13 @@
-import React from 'react';
+import * as React from 'react';
 import { PathLinkParmas } from '.';
-import NProgress from 'nprogress';
+import * as NProgress from 'nprogress';
 import 'nprogress/nprogress.css';
 import loadable from '@loadable/component';
 import { useHistory } from 'react-router';
 /**
  *  预加载
  */
-export const PathLink = (props: PathLinkParmas) => {
+export const PathLink = (props: PathLinkParmas): React.ReactElement => {
     const { to, className, style, onClick, componentPath, children } = props;
     const history = useHistory();
     /**
@@ -15,7 +15,7 @@ export const PathLink = (props: PathLinkParmas) => {
      * @param path 将要去的路由
      * @returns 查看去的路由和目前路由是否相同
      */
-    const isThisPage = (path: string) => {
+    const isThisPage = (path: string): boolean => {
         const location = window.location;
         const { hash } = location;
         return '#' + path === hash;
@@ -24,7 +24,7 @@ export const PathLink = (props: PathLinkParmas) => {
      *检测相同则不前往，不相同则载入路由
      * @returns
      */
-    const intercept = () => {
+    const intercept = (): Promise<boolean> | boolean => {
         if (!isThisPage(to)) {
             NProgress.start();
 
@@ -54,7 +54,7 @@ export const PathLink = (props: PathLinkParmas) => {
      * 点击事件，这里用来判断前后是否路由相同，且go是否属于promise对象
      * @param e
      */
-    const clickLink = async (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
+    const clickLink = async (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>): Promise<void> => {
         onClick && onClick(e);
         e.preventDefault();
         const isThis = isThisPage(to);

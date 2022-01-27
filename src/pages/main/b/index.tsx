@@ -1,15 +1,15 @@
 import { myTimer } from '@/module/UserModule';
 import { Button } from 'antd';
 import { observer } from 'mobx-react';
-import React, { FC } from 'react';
+import * as React from 'react';
 
-const B: FC = () => {
-    const TimerView = observer(({ timer }: any) => <Button onClick={() => timer.reset()}>已过秒数：{timer.secondsPassed}</Button>);
+const B: React.FC = () => {
+    const TimerView = observer(({ timer }: any) => <Button onClick={(): void => timer.reset()}>已过秒数：{timer.secondsPassed}</Button>);
     return (
         <div>
             bb
             <Button
-                onClick={() => {
+                onClick={(): void => {
                     myTimer.increase();
                 }}
             >

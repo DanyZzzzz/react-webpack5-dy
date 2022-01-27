@@ -5,10 +5,10 @@ export const routeConfig = [
         routes: [
             {
                 routes: [],
+                default: true,
                 componentPath: 'pages/login/index.tsx',
                 path: '/login',
-                component: loadable(() => import('@/pages/login/index')),
-                default: true
+                component: loadable(() => import('@/pages/login/index'))
             },
             {
                 routes: [
