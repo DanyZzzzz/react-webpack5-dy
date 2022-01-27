@@ -2,6 +2,7 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 const webpack = require('webpack');
 const { merge } = require('webpack-merge');
+const apiMocker = require('mocker-api');
 const webpackConfig = require('./webpack.common.js');
 const webpackDevConfig = {
     mode: 'development',
@@ -24,7 +25,11 @@ const webpackDevConfig = {
             //     target: 'https://other-server.example.com',
             //     secure: false,
             //   },
-        }
+        },
+        onBeforeSetupMiddleware(app) {
+          // 新版的webpack-dev-server的app外面包裹了一层
+          apiMocker(app.app, path.resolve(dirs.src, './.mocks/index.ts')); // mocker-api
+        },
     },
     //长期缓存
     optimization: {

@@ -1,5 +1,6 @@
 import { message } from 'antd';
-import Axios, { AxiosRequestConfig } from 'axios';
+import Axios, { AxiosError, AxiosPromise, AxiosRequestConfig, AxiosResponse } from 'axios';
+import * as qs from 'qs';
 
 class Exception {
     code?: number;
@@ -38,6 +39,36 @@ export function canCelRequest(): void {
 instance.defaults.withCredentials = true;
 instance.defaults.timeout = 120000;
 
+const exception = new Exception();
+
+const request = (config): Promise<AxiosRequestConfig> =>
+    new Promise(async resolve => {
+        const fooConfig = { ...config };
+
+        fooConfig.url = `${config.url}${config.url.indexOf('?') > -1 ? '&t=' : '?t='}${Date.now()}`;
+
+        // fooConfig.headers['X-Client-Version'] = apiConfig.version; // 自定义请求头
+
+        // const { token } = await cache._getUserKeyInfo();
+        // // if (token) fooConfig.headers.Authorization = `Bearer ${token}`;
+        // if (token) fooConfig.headers['access-token'] = token;
+
+        resolve(fooConfig);
+    });
+
+const requestError = (error: AxiosError): Promise<AxiosError> => Promise.reject(error);
+
+const response = (response: AxiosResponse): AxiosResponse => response;
+
+const responseError = (error: AxiosError): Promise<AxiosError> => {
+    const { response } = error;
+
+    if (!response) {
+        message.error(error.message);
+    }
+    exception.handle(error.response.status);
+    return Promise.reject(error);
+};
 // instance.defaults.baseURL = 'http://192.168.188.231:9901/';
 instance.interceptors.request.use((config: AxiosRequestConfig) => {
     message.loading({ content: '正在请求中', duration: 0, key: 'axiosNet' });
@@ -45,24 +76,78 @@ instance.interceptors.request.use((config: AxiosRequestConfig) => {
 
     return config;
 });
-const exception = new Exception();
 
-instance.interceptors.response.use(
-    function (result: any) {
-        if (result.data.code == 200) {
-            message.success({ content: '请求成功', duration: 2, key: 'axiosNet' });
-        } else {
-            message.success({ content: result.data.msg, duration: 2, key: 'axiosNet' });
-        }
-        exception.handle(result.data.code);
-        return Promise.resolve(result.data);
+instance.interceptors.request.use(request, requestError);
+instance.interceptors.response.use(response, responseError);
+
+const http = {
+    CancelToken: Axios.CancelToken,
+    request: (options: AxiosRequestConfig): AxiosPromise<any> => instance(options),
+    get: (url: string, data: unknown = null, options = null): AxiosPromise => {
+        const params: string = qs.stringify(data);
+        const query = params ? `${url.indexOf('?') > -1 ? '&' : '?'}${params}` : '';
+        return instance(url + query, { ...options });
     },
-    function (error) {
-        if (Axios.isCancel(error)) {
-            console.log('重复请求，已被cancel');
-        } else {
-            console.log('服务器好像挂掉了..');
-        }
-        return Promise.reject(error);
-    }
-);
+    post: (url: string, data: unknown = null, options: AxiosRequestConfig = null): AxiosPromise =>
+        instance({
+            method: 'POST',
+            url,
+            data,
+            ...options
+        }),
+    put: (url: string, data: unknown = null, options: AxiosRequestConfig = null): AxiosPromise =>
+        instance({
+            method: 'PUT',
+            url,
+            data,
+            ...options
+        }),
+    delete: (url: string, data: unknown = null, options: AxiosRequestConfig = null): AxiosPromise =>
+        instance({
+            method: 'DELETE',
+            url,
+            data,
+            ...options
+        })
+};
+
+// Mock: 创建 axios 实例
+const mockInstance = Axios.create({
+    timeout: 1000 * 60,
+    baseURL: '/'
+});
+
+mockInstance.interceptors.request.use(request, requestError);
+mockInstance.interceptors.response.use(response, responseError);
+
+const mock = {
+    CancelToken: Axios.CancelToken,
+    request: (options: AxiosRequestConfig): AxiosPromise<any> => mockInstance(options),
+    get: (url: string, data: unknown = null, options = null): AxiosPromise => {
+        const params: string = qs.stringify(data);
+        const query = params ? `${url.indexOf('?') > -1 ? '&' : '?'}${params}` : '';
+        return mockInstance(url + query, { ...options });
+    },
+    post: (url: string, data: unknown = null, options: AxiosRequestConfig = null): AxiosPromise =>
+        mockInstance({
+            method: 'POST',
+            url,
+            data,
+            ...options
+        }),
+    put: (url: string, data: unknown = null, options: AxiosRequestConfig = null): AxiosPromise =>
+        mockInstance({
+            method: 'PUT',
+            url,
+            data,
+            ...options
+        }),
+    delete: (url: string, data: unknown = null, options: AxiosRequestConfig = null): AxiosPromise =>
+        mockInstance({
+            method: 'DELETE',
+            url,
+            data,
+            ...options
+        })
+};
+export { http, mock };
